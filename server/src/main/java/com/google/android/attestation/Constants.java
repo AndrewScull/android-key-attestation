@@ -18,23 +18,6 @@ package com.google.android.attestation;
 /** Key Attestation constants */
 public class Constants {
 
-  // The Google root public key corresponding to the private key that must
-  // have been used to self-sign the root of a real attestation certificate
-  // chain from a compliant device.
-  // (Note, the sample chain used here is not signed with the Google root CA.)
-  public static final String GOOGLE_ROOT_CA_PUB_KEY =
-      "MIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEAr7bHgiuxpwHsK7Qui8xU"
-          + "FmOr75gvMsd/dTEDDJdSSxtf6An7xyqpRR90PL2abxM1dEqlXnf2tqw1Ne4Xwl5j"
-          + "lRfdnJLmN0pTy/4lj4/7tv0Sk3iiKkypnEUtR6WfMgH0QZfKHM1+di+y9TFRtv6y"
-          + "//0rb+T+W8a9nsNL/ggjnar86461qO0rOs2cXjp3kOG1FEJ5MVmFmBGtnrKpa73X"
-          + "pXyTqRxB/M0n1n/W9nGqC4FSYa04T6N5RIZGBN2z2MT5IKGbFlbC8UrW0DxW7AYI"
-          + "mQQcHtGl/m00QLVWutHQoVJYnFPlXTcHYvASLu+RhhsbDmxMgJJ0mcDpvsC4PjvB"
-          + "+TxywElgS70vE0XmLD+OJtvsBslHZvPBKCOdT0MS+tgSOIfga+z1Z1g7+DVagf7q"
-          + "uvmag8jfPioyKvxnK/EgsTUVi2ghzq8wm27ud/mIM7AY2qEORR8Go3TVB4HzWQgp"
-          + "Zrt3i5MIlCaY504LzSRiigHCzAPlHws+W0rB5N+er5/2pJKnfBSDiCiFAVtCLOZ7"
-          + "gLiMm0jhO2B6tUXHI/+MRPjy02i59lINMRRev56GKtcd9qO/0kUJWdZTdA2XoS82"
-          + "ixPvZtXQpUpuL12ab+9EaDK8Z4RHJYYfCT3Q5vNAXaiWQ+8PTWm2QgBR/bkwSWc+"
-          + "NpUFgNPN9PvQi8WEg5UmAGMCAwEAAQ==";
   static final String KEY_DESCRIPTION_OID = "1.3.6.1.4.1.11129.2.1.17";
   static final int ATTESTATION_VERSION_INDEX = 0;
   static final int ATTESTATION_SECURITY_LEVEL_INDEX = 1;

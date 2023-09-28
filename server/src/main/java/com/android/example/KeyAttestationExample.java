@@ -15,7 +15,6 @@
 
 package com.android.example;
 
-import static com.google.android.attestation.Constants.GOOGLE_ROOT_CA_PUB_KEY;
 import static com.google.android.attestation.ParsedAttestationRecord.createParsedAttestationRecord;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.collect.ImmutableList.toImmutableList;
@@ -24,6 +23,7 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 import com.google.android.attestation.AttestationApplicationId;
 import com.google.android.attestation.AttestationApplicationId.AttestationPackageInfo;
 import com.google.android.attestation.AuthorizationList;
+import com.google.android.attestation.CertificateAuthorityRootKeys;
 import com.google.android.attestation.CertificateRevocationStatus;
 import com.google.android.attestation.ParsedAttestationRecord;
 import com.google.android.attestation.RootOfTrust;
@@ -234,12 +234,10 @@ public class KeyAttestationExample {
 
     // If the attestation is trustworthy and the device ships with hardware-
     // backed key attestation, Android 7.0 (API level 24) or higher, and
-    // Google Play services, the root certificate should be signed with the
+    // Google Play services, the root certificate should be signed with a
     // Google attestation root key.
-    byte[] googleRootCaPubKey = Base64.decode(GOOGLE_ROOT_CA_PUB_KEY);
-    if (Arrays.equals(
-        googleRootCaPubKey,
-        certs.get(certs.size() - 1).getPublicKey().getEncoded())) {
+    CertificateAuthorityRootKeys rootKeys = CertificateAuthorityRootKeys.fetchAll();
+    if (rootKeys.contains(certs.get(certs.size() - 1).getPublicKey())) {
       System.out.println(
           "The root certificate is correct, so this attestation is trustworthy, as long as none of"
               + " the certificates in the chain have been revoked.");

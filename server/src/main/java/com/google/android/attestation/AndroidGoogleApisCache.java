@@ -30,6 +30,7 @@ import okhttp3.Response;
  */
 class AndroidGoogleApisCache {
 
+  private static final URL ROOT_URL = makeUrl("https://android.googleapis.com/attestation/root");
   private static final URL STATUS_URL = makeUrl("https://android.googleapis.com/attestation/status");
   private static final String CACHE_PATH = "httpcache";
   private static final Cache CACHE = new Cache(new File(CACHE_PATH), 10 * 1024 * 1024);
@@ -51,6 +52,10 @@ class AndroidGoogleApisCache {
     try (Response response = CLIENT.newCall(request).execute()) {
       return response.body().charStream();
     }
+  }
+
+  static Reader fetchRoot() throws IOException {
+    return fetch(ROOT_URL);
   }
 
   static Reader fetchStatus() throws IOException {
