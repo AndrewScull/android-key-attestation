@@ -15,38 +15,21 @@
 
 package com.google.android.attestation;
 
-import static java.nio.charset.StandardCharsets.UTF_8;
-
 import com.google.common.base.Ascii;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import java.io.File;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.Reader;
 import java.math.BigInteger;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.HashMap;
-import okhttp3.Cache;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
 
 /**
  * Utils for fetching and decoding attestation certificate status.
  */
 public class CertificateRevocationStatus {
-
-  private static final String STATUS_URL = "https://android.googleapis.com/attestation/status";
-  private static final String CACHE_PATH = "httpcache";
-  private static final Cache CACHE = new Cache(new File(CACHE_PATH), 10 * 1024 * 1024);
-  private static final OkHttpClient CLIENT = new OkHttpClient.Builder()
-          .cache(CACHE)
-          .build();
 
   public final Status status;
   public final Reason reason;
@@ -54,8 +37,7 @@ public class CertificateRevocationStatus {
   public final String expires;
 
   public static HashMap<String, CertificateRevocationStatus> fetchAllEntries() throws IOException {
-    URL url = new URL(STATUS_URL);
-    return getEntryToStatusMap(new InputStreamReader(url.openStream(), UTF_8));
+    return getEntryToStatusMap(AndroidGoogleApisCache.fetchStatus());
   }
 
   public static HashMap<String, CertificateRevocationStatus> loadAllEntriesFromFile(String filePath)
@@ -96,20 +78,7 @@ public class CertificateRevocationStatus {
   }
 
   public static CertificateRevocationStatus fetchStatus(String serialNumber) throws IOException {
-    URL url;
-    try {
-      url = new URL(STATUS_URL);
-    } catch (MalformedURLException e) {
-      throw new IllegalStateException(e);
-    }
-
-    Request request = new Request.Builder()
-            .url(url)
-            .build();
-
-    try (Response response = CLIENT.newCall(request).execute()) {
-      return decodeStatus(serialNumber, response.body().charStream());
-    }
+    return decodeStatus(serialNumber, AndroidGoogleApisCache.fetchStatus());
   }
 
   private static CertificateRevocationStatus decodeStatus(String serialNumber,
